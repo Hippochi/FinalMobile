@@ -15,7 +15,9 @@ public enum ImpulseSounds
     HIT3,
     DIE,
     THROW,
-    GEM
+    GEM,
+    GROW,
+    SHRINK
 }
 
 public class PlayerBehaviour : MonoBehaviour
@@ -282,6 +284,12 @@ public class PlayerBehaviour : MonoBehaviour
             other.gameObject.GetComponent<MovingPlatformController>().isActive = true;
             transform.SetParent(other.gameObject.transform);
         }
+
+        if (other.gameObject.CompareTag("FloatingPlat"))
+        {
+            other.gameObject.GetComponent<FloatingPlatController>().playerActive = true;
+            sounds[(int)ImpulseSounds.SHRINK].Play();
+        }
     }
 
     private void OnCollisionExit2D(Collision2D other)
@@ -290,6 +298,12 @@ public class PlayerBehaviour : MonoBehaviour
         {
             other.gameObject.GetComponent<MovingPlatformController>().isActive = false;
             transform.SetParent(parent);
+        }
+
+        if (other.gameObject.CompareTag("FloatingPlat"))
+        {
+            other.gameObject.GetComponent<FloatingPlatController>().playerActive = false ;
+            sounds[(int)ImpulseSounds.GROW].Play();
         }
     }
 
