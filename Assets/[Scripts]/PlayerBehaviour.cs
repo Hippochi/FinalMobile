@@ -270,8 +270,23 @@ public class PlayerBehaviour : MonoBehaviour
             other.gameObject.SetActive(false);
             HealDamage(10);
         }
+
+        if (other.gameObject.CompareTag("FloatingPlat"))
+        {
+            other.gameObject.GetComponent<FloatingPlatController>().playerActive = true;
+            sounds[(int)ImpulseSounds.SHRINK].Play();
+        }
     }
 
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("FloatingPlat"))
+        {
+            other.gameObject.GetComponent<FloatingPlatController>().playerActive = false;
+            sounds[(int)ImpulseSounds.GROW].Play();
+        }
+    }
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Enemy"))
@@ -285,11 +300,7 @@ public class PlayerBehaviour : MonoBehaviour
             transform.SetParent(other.gameObject.transform);
         }
 
-        if (other.gameObject.CompareTag("FloatingPlat"))
-        {
-            other.gameObject.GetComponent<FloatingPlatController>().playerActive = true;
-            sounds[(int)ImpulseSounds.SHRINK].Play();
-        }
+        
     }
 
     private void OnCollisionExit2D(Collision2D other)
@@ -300,11 +311,7 @@ public class PlayerBehaviour : MonoBehaviour
             transform.SetParent(parent);
         }
 
-        if (other.gameObject.CompareTag("FloatingPlat"))
-        {
-            other.gameObject.GetComponent<FloatingPlatController>().playerActive = false ;
-            sounds[(int)ImpulseSounds.GROW].Play();
-        }
+       
     }
 
 
